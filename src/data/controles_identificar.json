@@ -1,0 +1,105 @@
+{
+    "categoria": "Identificar",
+    "subcategorias": [
+      {
+        "subcategoria": "Gestão de Ativos",
+        "controles": [
+          {
+            "controle": "ID.AM-01",
+            "descricao": "Os inventários de hardware gerenciados pela organização são mantidos?"
+          },
+          {
+            "controle": "ID.AM-02",
+            "descricao": "Os inventários de software, serviços e sistemas gerenciados pela organização são mantidos?"
+          },
+          {
+            "controle": "ID.AM-03",
+            "descricao": "As representações da comunicação de rede autorizada da organização e dos fluxos de dados de rede internos e externos são mantidas?"
+          },
+          {
+            "controle": "ID.AM-04",
+            "descricao": "Os inventários dos serviços prestados pelos fornecedores são mantidos?"
+          },
+          {
+            "controle": "ID.AM-05",
+            "descricao": "Os ativos são priorizados com base na classificação, criticidade, recursos e impacto na missão?"
+          },
+          {
+            "controle": "ID.AM-06",
+            "descricao": "Os inventários de dados e metadados correspondentes para tipos de dados designados são mantidos?"
+          },
+          {
+            "controle": "ID.AM-07",
+            "descricao": "Sistemas, hardware, software, serviços e dados são gerenciados ao longo de seus ciclos de vida?"
+          }
+        ]
+      },
+      {
+        "subcategoria": "Avaliação de Risco",
+        "controles": [
+          {
+            "controle": "ID.RA-01",
+            "descricao": "Vulnerabilidades em ativos são identificadas, validadas e registradas?"
+          },
+          {
+            "controle": "ID.RA-02",
+            "descricao": "A inteligência sobre ameaças cibernéticas é recebida de fóruns e fontes de compartilhamento de informações?"
+          },
+          {
+            "controle": "ID.RA-03",
+            "descricao": "Ameaças internas e externas à organização são identificadas e registradas?"
+          },
+          {
+            "controle": "ID.RA-04",
+            "descricao": "Os potenciais impactos e probabilidades de ameaças que exploram vulnerabilidades são identificados e registrados?"
+          },
+          {
+            "controle": "ID.RA-05",
+            "descricao": "Ameaças, vulnerabilidades, probabilidades e impactos são usados para entender o risco inerente e informar a priorização da resposta ao risco?"
+          },
+          {
+            "controle": "ID.RA-06",
+            "descricao": "As respostas aos riscos são escolhidas, priorizadas, planejadas, rastreadas e comunicadas?"
+          },
+          {
+            "controle": "ID.RA-07",
+            "descricao": "Alterações e exceções são gerenciadas, avaliadas quanto ao impacto do risco, registradas e rastreadas?"
+          },
+          {
+            "controle": "ID.RA-08",
+            "descricao": "São estabelecidos processos para receber, analisar e responder a divulgações de vulnerabilidades?"
+          },
+          {
+            "controle": "ID.RA-09",
+            "descricao": "A autenticidade e a integridade do hardware e do software são avaliadas antes da aquisição e utilização?"
+          },
+          {
+            "controle": "ID.RA-10",
+            "descricao": "Os fornecedores críticos são avaliados antes da aquisição?"
+          }
+        ]
+      },
+      {
+        "subcategoria": "Melhoria",
+        "controles": [
+          {
+            "controle": "ID.IM-01",
+            "descricao": "As melhorias são identificadas a partir de avaliações?"
+          },
+          {
+            "controle": "ID.IM-02",
+            "descricao": "As melhorias são identificadas a partir de testes e exercícios de segurança, incluindo aqueles realizados em coordenação com fornecedores e terceiros relevantes?"
+          },
+          {
+            "controle": "ID.IM-03",
+            "descricao": "As melhorias são identificadas a partir da execução de processos, procedimentos e atividades operacionais?"
+          },
+          {
+            "controle": "ID.IM-04",
+            "descricao": "Os planos de resposta a incidentes e outros planos de segurança cibernética que afetam as operações são estabelecidos, comunicados, mantidos e melhorados?"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,48 @@
+{
+    "categoria": "Recuperar",
+    "subcategorias": [
+      {
+        "subcategoria": "Execução do Plano de Recuperação de Incidentes",
+        "controles": [
+          {
+            "controle": "RC.RP-01",
+            "descricao": "A parte de recuperação do plano de resposta a incidentes é executada uma vez iniciada a partir do processo de resposta a incidentes?"
+          },
+          {
+            "controle": "RC.RP-02",
+            "descricao": "As ações de recuperação são selecionadas, delimitadas, priorizadas e executadas?"
+          },
+          {
+            "controle": "RC.RP-03",
+            "descricao": "A integridade dos backups e outros ativos de restauração é verificada antes de usá-los para restauração?"
+          },
+          {
+            "controle": "RC.RP-04",
+            "descricao": "As funções críticas da missão e a gestão de riscos de segurança cibernética são consideradas para estabelecer normas operacionais pós-incidente?"
+          },
+          {
+            "controle": "RC.RP-05",
+            "descricao": "A integridade dos ativos restaurados é verificada, os sistemas e serviços são restaurados e o status operacional normal é confirmado?"
+          },
+          {
+            "controle": "RC.RP-06",
+            "descricao": "O fim da recuperação do incidente é declarado com base em critérios e a documentação relacionada ao incidente é concluída?"
+          }
+        ]
+      },
+      {
+        "subcategoria": "Comunicação de Recuperação de Incidentes",
+        "controles": [
+          {
+            "controle": "RC.CO-01",
+            "descricao": "As atividades de recuperação e o progresso na restauração das capacidades operacionais são comunicados às partes interessadas internas e externas designadas?"
+          },
+          {
+            "controle": "RC.CO-02",
+            "descricao": "As atualizações públicas sobre a recuperação de incidentes são compartilhadas usando métodos e mensagens aprovados?"
+          }
+        ]
+      }
+    ]
+  }
+  
