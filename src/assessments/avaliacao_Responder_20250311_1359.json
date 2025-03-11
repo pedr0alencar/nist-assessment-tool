@@ -1,0 +1,70 @@
+{
+    "categoria": "Responder",
+    "respostas": [
+        {
+            "controle": "RS.MA-01",
+            "descricao": "O plano de resposta a incidentes é executado em coordenação com terceiros relevantes, uma vez que um incidente é declarado?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.MA-02",
+            "descricao": "Os relatórios de incidentes são triados e validados?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.MA-03",
+            "descricao": "Os incidentes são categorizados e priorizados?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.MA-04",
+            "descricao": "Os incidentes são escalados ou elevados conforme necessário?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.MA-05",
+            "descricao": "Os critérios para iniciar a recuperação de incidentes são aplicados?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.AN-01",
+            "descricao": "A análise é realizada para estabelecer o que ocorreu durante um incidente e a causa raiz do incidente?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.AN-02",
+            "descricao": "As ações realizadas durante uma investigação são registradas e a integridade e a procedência dos registros são preservadas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "RS.AN-03",
+            "descricao": "Os dados e metadados do incidente são coletados e sua integridade e procedência são preservadas?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "RS.AN-04",
+            "descricao": "A magnitude de um incidente é estimada e validada?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "RS.CO-01",
+            "descricao": "As partes interessadas internas e externas são notificadas sobre incidentes?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "RS.CO-02",
+            "descricao": "As informações são compartilhadas com as partes interessadas internas e externas designadas?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "RS.MI-01",
+            "descricao": "Os incidentes são contidos?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "RS.MI-02",
+            "descricao": "Os incidentes são erradicados?",
+            "status": "Em Implementação"
+        }
+    ]
+}

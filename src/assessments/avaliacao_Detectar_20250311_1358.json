@@ -1,0 +1,60 @@
+{
+    "categoria": "Detectar",
+    "respostas": [
+        {
+            "controle": "DE.CM-01",
+            "descricao": "Redes e serviços de rede são monitorados para encontrar eventos potencialmente adversos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.CM-02",
+            "descricao": "O ambiente físico é monitorado para encontrar eventos potencialmente adversos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.CM-03",
+            "descricao": "A atividade do pessoal e o uso da tecnologia são monitorados para encontrar eventos potencialmente adversos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.CM-04",
+            "descricao": "As atividades e serviços do provedor de serviços externo são monitorados para encontrar eventos potencialmente adversos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.CM-05",
+            "descricao": "Hardware e software de computação, ambientes de execução e seus dados são monitorados para encontrar eventos potencialmente adversos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-01",
+            "descricao": "Eventos potencialmente adversos são analisados para melhor compreender as atividades associadas?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-02",
+            "descricao": "As informações são correlacionadas de várias fontes?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-03",
+            "descricao": "O impacto estimado e o escopo dos eventos adversos são compreendidos?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-04",
+            "descricao": "As informações sobre eventos adversos são fornecidas à equipe e às ferramentas autorizadas?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-05",
+            "descricao": "A inteligência sobre ameaças cibernéticas e outras informações contextuais são integradas à análise?",
+            "status": "Planejado"
+        },
+        {
+            "controle": "DE.AE-06",
+            "descricao": "Os incidentes são declarados quando os eventos adversos atendem aos critérios de incidente definidos?",
+            "status": "Planejado"
+        }
+    ]
+}

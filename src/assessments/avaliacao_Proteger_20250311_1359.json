@@ -1,0 +1,115 @@
+{
+    "categoria": "Proteger",
+    "respostas": [
+        {
+            "controle": "PR.AA-01",
+            "descricao": "Identidades e credenciais para usuários, serviços e hardware autorizados são gerenciados pela organização?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "PR.AA-02",
+            "descricao": "As identidades são comprovadas e vinculadas a credenciais com base no contexto das interações?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "PR.AA-03",
+            "descricao": "Usuários, serviços e hardware são autenticados?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "PR.AA-04",
+            "descricao": "As afirmações de identidade são protegidas, transmitidas e verificadas?",
+            "status": "Parcialmente em Conformidade"
+        },
+        {
+            "controle": "PR.AA-05",
+            "descricao": "Permissões de acesso, direitos e autorizações são definidos em uma política, gerenciados, aplicados e revisados, e incorporam os princípios de menor privilégio e separação de funções?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.AA-06",
+            "descricao": "O acesso físico aos ativos é gerenciado, monitorado e aplicado de acordo com o risco?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.AT-01",
+            "descricao": "O pessoal recebe conscientização e treinamento para que possua o conhecimento e as habilidades para executar tarefas gerais com os riscos de segurança cibernética em mente?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.AT-02",
+            "descricao": "Indivíduos em funções especializadas recebem conscientização e treinamento para que possuam o conhecimento e as habilidades para executar tarefas relevantes, tendo em mente os riscos de segurança cibernética?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.DS-01",
+            "descricao": "A confidencialidade, integridade e disponibilidade dos dados em repouso são protegidas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.DS-02",
+            "descricao": "A confidencialidade, integridade e disponibilidade dos dados em trânsito são protegidas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.DS-03",
+            "descricao": "A confidencialidade, integridade e disponibilidade dos dados em uso são protegidas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.DS-04",
+            "descricao": "Os backups de dados são criados, protegidos, mantidos e testados?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-01",
+            "descricao": "As práticas de gerenciamento de configuração são estabelecidas e aplicadas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-02",
+            "descricao": "O software é mantido, substituído e removido de acordo com o risco?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-03",
+            "descricao": "O hardware é mantido, substituído e removido de acordo com o risco?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-04",
+            "descricao": "Os registros de log são gerados e disponibilizados para monitoramento contínuo?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-05",
+            "descricao": "A instalação e execução de software não autorizado são impedidas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.PS-06",
+            "descricao": "As práticas seguras de desenvolvimento de software são integradas e seu desempenho é monitorado durante todo o ciclo de vida do desenvolvimento de software?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.IR-01",
+            "descricao": "Redes e ambientes são protegidos contra acesso e uso lógico não autorizado?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.IR-02",
+            "descricao": "Os ativos tecnológicos da organização são protegidos contra ameaças ambientais?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.IR-03",
+            "descricao": "São implementados mecanismos para atingir os requisitos de resiliência em situações normais e adversas?",
+            "status": "Em Conformidade"
+        },
+        {
+            "controle": "PR.IR-04",
+            "descricao": "A capacidade de recursos é adequada para garantir que a disponibilidade seja mantida?",
+            "status": "Em Conformidade"
+        }
+    ]
+}
