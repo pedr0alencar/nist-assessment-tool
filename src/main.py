@@ -1,4 +1,6 @@
 # src/main.py
+import matplotlib.pyplot as plt
+import pandas as pd
 
 categorias = {
     "Governar": [
@@ -72,10 +74,45 @@ def exibir_resumo(respostas):
             print(f"  - {controle}: {estado}")
         print()
 
+
+def gerar_graficos(respostas):
+    dados = []
+
+    for categoria, controles in respostas.items():
+        for controle, estado in controles.items():
+            dados.append([categoria, controle, estado])
+
+    df = pd.DataFrame(dados, columns=['Categoria', 'Controle', 'Estado'])
+
+    # Gráfico 1: Contagem geral de estados
+    plt.figure(figsize=(8, 6))
+    df['Estado'].value_counts().plot(kind='barh')
+    plt.title('Quantidade de Controles por Estado')
+    plt.xlabel('Quantidade')
+    plt.ylabel('Estado')
+    plt.grid(axis='x')
+    plt.tight_layout()
+    plt.savefig('grafico_estados.png')
+    plt.show()
+
+    # Gráfico 2: Estados por Categoria
+    estados_categoria = df.groupby(['Categoria', 'Estado']).size().unstack(fill_value=0)
+    estados_categoria.plot(kind='bar', stacked=True, figsize=(10, 7))
+    plt.title('Estados dos Controles por Categoria')
+    plt.xlabel('Categoria')
+    plt.ylabel('Quantidade de Controles')
+    plt.xticks(rotation=30)
+    plt.legend(title='Estado')
+    plt.grid(axis='y')
+    plt.tight_layout()
+    plt.savefig('grafico_estados_categoria.png')
+    plt.show()
+
 def main():
     print("\nNIST Cybersecurity Assessment Tool\n")
     respostas = coletar_respostas()
     exibir_resumo(respostas)
+    gerar_graficos(respostas)
 
 if __name__ == "__main__":
     main()
