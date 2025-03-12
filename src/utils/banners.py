@@ -1,5 +1,5 @@
 
-HEADER_ASCII= r"""
+HEADER_ASCII = r"""
           
 
 
