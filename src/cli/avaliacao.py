@@ -1,6 +1,7 @@
 import os
 import json
 from datetime import datetime
+from utils.report_generator import gerar_relatorio_html
 
 ASSESSMENTS_DIR = "src/assessments/"
 
@@ -50,12 +51,19 @@ def avaliar_todas(categorias):
         avaliar_categoria(categoria_data)
 
 def salvar_avaliacao(categoria, respostas):
-    """Salva a avaliação em um arquivo JSON e retorna ao menu."""
+    """Salva a avaliação em um arquivo JSON e gera o relatório HTML."""
     if not os.path.exists(ASSESSMENTS_DIR):
         os.makedirs(ASSESSMENTS_DIR)
 
-    filename = f"{ASSESSMENTS_DIR}avaliacao_{categoria}_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
-    with open(filename, "w", encoding="utf-8") as file:
+    json_filename = f"avaliacao_{categoria}_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
+    json_path = os.path.join(ASSESSMENTS_DIR, json_filename)
+
+    # Salvar o JSON
+    with open(json_path, "w", encoding="utf-8") as file:
         json.dump({"categoria": categoria, "respostas": respostas}, file, indent=4, ensure_ascii=False)
 
-    print(f"\n✅ Avaliação salva com sucesso em: {filename}")
+    print(f"\n✅ Avaliação salva em: {json_path}")
+
+    # Gerar relatório HTML
+    html_path = gerar_relatorio_html(categoria, respostas, destino="src/reports")
+    print(f"✅ Relatório HTML gerado em: {html_path}\n")
