@@ -6,51 +6,81 @@ from utils.chart_utils import (
 )
 
 def compilar_estatisticas(respostas):
+    """
+    Recebe as 'respostas' de uma categoria:
+     [ {controle, descricao, status}, ... ]
+    Retorna dict com contagem de cada status, total e % de conformidade (considerando 'Em Conformidade').
+    """
     status_counts = {}
     for resp in respostas:
         st = resp["status"]
         status_counts[st] = status_counts.get(st, 0) + 1
 
-    total = sum(status_counts.values())
+    total_controles = sum(status_counts.values())
     conformes = status_counts.get("Em Conformidade", 0)
-    perc_conf = (conformes / total * 100) if total else 0.0
+    perc_conf = (conformes / total_controles * 100) if total_controles else 0.0
 
     return {
         "status_counts": status_counts,
-        "total_controles": total,
+        "total_controles": total_controles,
         "percentual_conformidade": perc_conf
     }
 
 def gerar_relatorio_html_single(categoria, respostas, destino):
     """
-    Gera relatório interativo usando Plotly (barras + pizza).
+    Gera um relatório HTML interativo (Plotly) para UMA categoria,
+    incluindo textos explicativos, tabelas e gráficos (barras + pizza).
     """
     if not os.path.exists(destino):
         os.makedirs(destino)
 
+    # Estatísticas
     stats = compilar_estatisticas(respostas)
     status_counts = stats["status_counts"]
     total = stats["total_controles"]
     perc_conf = stats["percentual_conformidade"]
 
-    # Gerar HTML dos gráficos interativos (sem <html>)
+    # Gera HTML dos gráficos
     barras_html = gerar_grafico_interativo_barras(status_counts, titulo=f"{categoria} - Barras")
     pizza_html = gerar_grafico_interativo_pizza(status_counts, titulo=f"{categoria} - Pizza")
 
+    # Texto explicativo
+    data_atual = datetime.now().strftime("%d/%m/%Y %H:%M")
+    texto_introducao = f"""
+    <p>
+        Este relatório apresenta uma <strong>avaliação detalhada</strong> da categoria 
+        <strong>{categoria}</strong> no contexto do Framework NIST, realizada em 
+        <strong>{data_atual}</strong>. 
+        No total, foram analisados <strong>{total}</strong> controles,
+        resultando em cerca de <strong>{perc_conf:.1f}%</strong> em 
+        conformidade total.
+    </p>
+
+    <p>
+        A <strong>conformidade total</strong> indica que as medidas e processos 
+        estabelecidos atendem satisfatoriamente aos requisitos do controle.
+        Já os status de <em>“Não Implementado”</em>, <em>“Planejado”</em>, 
+        <em>“Em Implementação”</em> ou <em>“Parcialmente em Conformidade”</em> 
+        apontam a necessidade de aperfeiçoar determinados pontos 
+        para minimizar riscos potenciais.
+    </p>
+
+    <p>
+        Este panorama específico para a categoria <strong>{categoria}</strong> 
+        permite <em>identificar prioridades</em> e alocar recursos de forma
+        mais eficiente, fortalecendo a postura de segurança cibernética da 
+        organização. Recomenda-se revisar individualmente cada controle
+        que não esteja em conformidade para elaborar planos de ação imediatos
+        ou de longo prazo.
+    </p>
+    """
+
+    # Monta HTML final
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     nome_arquivo = f"relatorio_{categoria}_{timestamp}.html"
     caminho_arquivo = os.path.join(destino, nome_arquivo)
 
-    # Texto de exemplo
-    texto_introducao = f"""
-    <p>
-        Esta é uma avaliação da categoria <strong>{categoria}</strong>.
-        No total, analisamos <strong>{total}</strong> controles, e 
-        <strong>{perc_conf:.1f}%</strong> estão totalmente em conformidade.
-    </p>
-    """
-
-    # Incluir script Plotly (CDN) APENAS uma vez
+    # Script Plotly (CDN)
     plotly_cdn_script = """<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>"""
 
     html = f"""<!DOCTYPE html>
@@ -102,7 +132,7 @@ def gerar_relatorio_html_single(categoria, respostas, destino):
 </head>
 <body>
     <h1>Relatório - {categoria}</h1>
-    <p style="text-align:center;">Data: {datetime.now().strftime("%d/%m/%Y %H:%M")}</p>
+    <p style="text-align:center;">Data/Hora: {data_atual}</p>
 
     <div class="intro">
         {texto_introducao}
@@ -110,37 +140,41 @@ def gerar_relatorio_html_single(categoria, respostas, destino):
 
     <div class="charts">
         <div class="chart-container">
-            <h3>Gráfico de Barras (Interativo)</h3>
+            <h3>Gráfico de Barras Interativo</h3>
             {barras_html}
         </div>
         <div class="chart-container">
-            <h3>Gráfico de Pizza (Interativo)</h3>
+            <h3>Gráfico de Pizza Interativo</h3>
             {pizza_html}
         </div>
     </div>
 
     <table>
-      <thead>
-        <tr>
-          <th>Controle</th>
-          <th>Descrição</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
+        <thead>
+            <tr>
+                <th>Controle</th>
+                <th>Descrição</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
     """
 
-    for r in respostas:
+    # Tabela de Controles
+    for resp in respostas:
+        c = resp["controle"]
+        d = resp["descricao"]
+        s = resp["status"]
         html += f"""
-        <tr>
-          <td>{r["controle"]}</td>
-          <td>{r["descricao"]}</td>
-          <td>{r["status"]}</td>
-        </tr>
+            <tr>
+                <td>{c}</td>
+                <td>{d}</td>
+                <td>{s}</td>
+            </tr>
         """
 
     html += """
-      </tbody>
+        </tbody>
     </table>
 
     <div class="footer">
@@ -150,6 +184,7 @@ def gerar_relatorio_html_single(categoria, respostas, destino):
 </html>
 """
 
+    # Salva em disco
     with open(caminho_arquivo, "w", encoding="utf-8") as f:
         f.write(html)
 
@@ -158,12 +193,13 @@ def gerar_relatorio_html_single(categoria, respostas, destino):
 
 def gerar_relatorio_html_all(dados_por_categoria, destino):
     """
-    Relatório com TODOS os gráficos interativos. 
+    Gera um relatório consolidado de TODAS as categorias, 
+    com texto abrangente e gráficos interativos (barras + pizza) no escopo global.
     """
     if not os.path.exists(destino):
         os.makedirs(destino)
 
-    # Calcular estatísticas globais
+    # Estatísticas GLOBAIS
     status_counts_globais = {}
     total_controles = 0
     for cat, respostas in dados_por_categoria.items():
@@ -172,24 +208,47 @@ def gerar_relatorio_html_all(dados_por_categoria, destino):
             status_counts_globais[st] = status_counts_globais.get(st, 0) + 1
         total_controles += len(respostas)
 
-    conformes_global = status_counts_globais.get("Em Conformidade", 0)
-    perc_conf_global = (conformes_global / total_controles * 100) if total_controles else 0.0
+    conformes = status_counts_globais.get("Em Conformidade", 0)
+    perc_conf_global = (conformes / total_controles * 100) if total_controles else 0.0
 
-    # Plotly HTML
+    # Gráficos (Plotly)
     barras_html = gerar_grafico_interativo_barras(status_counts_globais, "Todas as Categorias - Barras")
     pizza_html = gerar_grafico_interativo_pizza(status_counts_globais, "Todas as Categorias - Pizza")
+
+    # Texto explicativo global
+    qtd_categorias = len(dados_por_categoria.keys())
+    data_atual = datetime.now().strftime("%d/%m/%Y %H:%M")
+
+    texto_introducao = f"""
+    <p>
+        Este relatório consolida a <strong>avaliação de {qtd_categorias} categorias</strong>
+        no âmbito do Framework NIST, totalizando <strong>{total_controles}</strong> controles analisados.
+        A coleta de dados foi realizada em <strong>{data_atual}</strong>, resultando em 
+        aproximadamente <strong>{perc_conf_global:.1f}%</strong> de conformidade total.
+    </p>
+
+    <p>
+        O objetivo principal é oferecer um <em>panorama global</em> do estado atual 
+        de segurança da informação, destacando tanto os pontos fortes quanto 
+        as áreas que demandam maior atenção. As informações aqui presentes 
+        servem de <strong>base para priorização</strong> de iniciativas, definição 
+        de metas de curto e longo prazo e <em>alocação eficiente de recursos</em>, 
+        visando reforçar a postura de segurança cibernética da organização.
+    </p>
+
+    <p>
+        É recomendável, ainda, que as equipes responsáveis revisem cada 
+        <strong>categoria individual</strong> para aprofundar o entendimento 
+        sobre controles específicos. Assim, obtém-se uma visão mais granular 
+        para atuar diretamente sobre eventuais lacunas e riscos identificados, 
+        garantindo maior <strong>maturidade e resiliência</strong> diante de 
+        ameaças cibernéticas.
+    </p>
+    """
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     nome_arquivo = f"relatorio_TodasCategorias_{timestamp}.html"
     caminho_arquivo = os.path.join(destino, nome_arquivo)
-
-    texto_introducao = f"""
-    <p>
-        Este relatório consolida as avaliações de <strong>{len(dados_por_categoria.keys())}</strong> categorias.
-        Ao todo, foram avaliados <strong>{total_controles}</strong> controles,
-        com aproximadamente <strong>{perc_conf_global:.1f}%</strong> em conformidade total.
-    </p>
-    """
 
     plotly_cdn_script = """<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>"""
 
@@ -197,7 +256,7 @@ def gerar_relatorio_html_all(dados_por_categoria, destino):
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Relatório - Todas as Categorias</title>
+    <title>Relatório - TODAS as Categorias</title>
     {plotly_cdn_script}
     <style>
         body {{
@@ -247,7 +306,7 @@ def gerar_relatorio_html_all(dados_por_categoria, destino):
 </head>
 <body>
     <h1>Relatório de Avaliação - TODAS AS CATEGORIAS</h1>
-    <p style="text-align:center;">Data: {datetime.now().strftime("%d/%m/%Y %H:%M")}</p>
+    <p style="text-align:center;">Data: {data_atual}</p>
 
     <div class="intro">
         {texto_introducao}
@@ -265,7 +324,7 @@ def gerar_relatorio_html_all(dados_por_categoria, destino):
     </div>
 """
 
-    # Seções de cada categoria
+    # Seção para cada categoria
     for cat, respostas in dados_por_categoria.items():
         html += f"""
         <h2 class="categoria-title">{cat}</h2>
