@@ -1,32 +1,23 @@
-# src/utils/report_generator.py
 import os
 from datetime import datetime
-from utils.chart_utils import gerar_grafico_barras, gerar_grafico_pizza
 
-def gerar_relatorio_html_single(categoria, respostas, destino="src/reports"):
+def gerar_relatorio_html_single(categoria, respostas, destino):
     """
     Gera um relatório HTML para uma única categoria,
-    contendo tabela de controles e gráficos (barra e pizza).
+    contendo tabela de controles e possibilidade de inserir gráficos no futuro.
+    :param categoria: Nome da categoria avaliada
+    :param respostas: Lista de dicionários com {controle, descricao, status}
+    :param destino: Diretório onde salvar o arquivo HTML
     """
-
     if not os.path.exists(destino):
         os.makedirs(destino)
 
-    # Montar contagens de status
-    status_counts = {}
-    for resp in respostas:
-        st = resp["status"]
-        status_counts[st] = status_counts.get(st, 0) + 1
-
-    # Gerar gráficos em base64
-    barras_base64 = gerar_grafico_barras(status_counts, titulo=f"{categoria} - Barras")
-    pizza_base64 = gerar_grafico_pizza(status_counts, titulo=f"{categoria} - Pizza")
-
-    # Montar corpo HTML
+    # Nome do arquivo (ex.: relatorio_Governar_20230315_1234.html)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     nome_arquivo = f"relatorio_{categoria}_{timestamp}.html"
     caminho_arquivo = os.path.join(destino, nome_arquivo)
 
+    # Aqui criamos um HTML básico
     html_conteudo = f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -48,25 +39,20 @@ def gerar_relatorio_html_single(categoria, respostas, destino="src/reports"):
             margin-top: 20px;
         }}
         th, td {{
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             text-align: left;
         }}
         thead {{
-            background-color: #eee;
+            background-color: #ddd;
         }}
-        .charts {{
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }}
-        .chart-container {{
-            text-align: center;
+        .status {{
+            font-weight: bold;
         }}
         .footer {{
-            margin-top: 30px;
+            margin-top: 40px;
             text-align: center;
-            font-size: 0.85em;
+            font-size: 0.9em;
             color: #888;
         }}
     </style>
@@ -83,35 +69,25 @@ def gerar_relatorio_html_single(categoria, respostas, destino="src/reports"):
             </tr>
         </thead>
         <tbody>
-    """
+"""
 
-    for resp in respostas:
-        controle = resp["controle"]
-        descricao = resp["descricao"]
-        status = resp["status"]
+    # Acrescentar linhas da tabela
+    for resposta in respostas:
+        controle = resposta["controle"]
+        descricao = resposta["descricao"]
+        status = resposta["status"]
         html_conteudo += f"""
             <tr>
                 <td>{controle}</td>
                 <td>{descricao}</td>
-                <td>{status}</td>
+                <td class="status">{status}</td>
             </tr>
         """
 
+    # Fechar tabela e corpo
     html_conteudo += """
         </tbody>
     </table>
-
-    <div class="charts">
-        <div class="chart-container">
-            <h3>Gráfico de Barras</h3>
-            <img src="data:image/png;base64,""" + barras_base64 + """">
-        </div>
-        <div class="chart-container">
-            <h3>Gráfico de Pizza</h3>
-            <img src="data:image/png;base64,""" + pizza_base64 + """">
-        </div>
-    </div>
-
     <div class="footer">
         <p>Gerado automaticamente pelo NIST Assessment Tool</p>
     </div>
@@ -119,36 +95,24 @@ def gerar_relatorio_html_single(categoria, respostas, destino="src/reports"):
 </html>
 """
 
+    # Salvar o arquivo HTML
     with open(caminho_arquivo, "w", encoding="utf-8") as f:
         f.write(html_conteudo)
 
     return caminho_arquivo
 
 
-def gerar_relatorio_html_all(dados_por_categoria, destino="src/reports"):
+def gerar_relatorio_html_all(dados_por_categoria, destino):
     """
-    Gera um relatório HTML englobando todas as categorias.
-    'dados_por_categoria' deve ser um dict:
-      {
-        "Governar": [ {controle, descricao, status}, ... ],
-        "Identificar": [ ... ],
-        ...
-      }
+    Gera um relatório HTML englobando todas as categorias, com base em um dicionário do tipo:
+    {
+      'Governar': [ {controle, descricao, status}, ... ],
+      'Identificar': [ ... ],
+      ...
+    }
     """
     if not os.path.exists(destino):
         os.makedirs(destino)
-
-    # Vamos fazer uma contagem global de status
-    status_counts_globais = {}
-
-    for cat, respostas in dados_por_categoria.items():
-        for resp in respostas:
-            st = resp["status"]
-            status_counts_globais[st] = status_counts_globais.get(st, 0) + 1
-
-    # Gerar gráficos globais
-    barras_global = gerar_grafico_barras(status_counts_globais, titulo="Todas as Categorias - Barras")
-    pizza_global = gerar_grafico_pizza(status_counts_globais, titulo="Todas as Categorias - Pizza")
 
     # Montar HTML
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
@@ -159,7 +123,7 @@ def gerar_relatorio_html_all(dados_por_categoria, destino="src/reports"):
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Relatório - Todas as Categorias</title>
+    <title>Relatório - TODAS as Categorias</title>
     <style>
         body {{
             font-family: Arial, sans-serif;
@@ -175,20 +139,12 @@ def gerar_relatorio_html_all(dados_por_categoria, destino="src/reports"):
             margin-top: 20px;
         }}
         th, td {{
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             text-align: left;
         }}
         thead {{
-            background-color: #eee;
-        }}
-        .charts {{
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }}
-        .chart-container {{
-            text-align: center;
+            background-color: #ddd;
         }}
         .footer {{
             margin-top: 30px;
@@ -205,19 +161,8 @@ def gerar_relatorio_html_all(dados_por_categoria, destino="src/reports"):
 <body>
     <h1>Relatório de Avaliação - TODAS AS CATEGORIAS</h1>
     <p>Data/Hora: {datetime.now().strftime("%d/%m/%Y %H:%M")}</p>
-    <div class="charts">
-        <div class="chart-container">
-            <h3>Gráfico de Barras (Global)</h3>
-            <img src="data:image/png;base64,{barras_global}">
-        </div>
-        <div class="chart-container">
-            <h3>Gráfico de Pizza (Global)</h3>
-            <img src="data:image/png;base64,{pizza_global}">
-        </div>
-    </div>
 """
 
-    # Agora adicionamos tabelas para cada categoria, se quiser
     for cat, respostas in dados_por_categoria.items():
         html += f"""
         <h2 class="categoria-title">{cat}</h2>
