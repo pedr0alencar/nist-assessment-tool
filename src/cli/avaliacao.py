@@ -1,3 +1,5 @@
+# src/cli/avaliacao.py
+
 import os
 import json
 from datetime import datetime
@@ -11,7 +13,6 @@ STATUS_OPTIONS = [
     "Parcialmente em Conformidade",
     "Em Conformidade"
 ]
-
 
 def avaliar_categoria(categoria_data, empresa):
     """
@@ -36,17 +37,22 @@ def avaliar_categoria(categoria_data, empresa):
                     print("\n↩️ Voltando ao menu...\n")
                     return
 
-                if escolha.isdigit() and 1 <= int(escolha) <= len(STATUS_OPTIONS):
+                # Validação do input
+                if not escolha.isdigit():
+                    print("\n❌ Entrada inválida! Digite um número.\n")
+                    continue
+
+                idx = int(escolha)
+                if 1 <= idx <= len(STATUS_OPTIONS):
                     respostas.append({
                         "controle": controle["controle"],
                         "descricao": controle["descricao"],
-                        "status": STATUS_OPTIONS[int(escolha) - 1]
+                        "status": STATUS_OPTIONS[idx - 1]
                     })
                     break
                 else:
-                    print("\n❌ Entrada inválida! Escolha um número válido.\n")
+                    print(f"\n❌ Escolha um número entre 1 e {len(STATUS_OPTIONS)}.\n")
 
-    # Ao terminar, salvamos JSON + geramos Relatório (single)
     salvar_avaliacao_e_relatorio(empresa, categoria_data["categoria"], respostas)
 
 
@@ -57,7 +63,8 @@ def avaliar_todas(categorias, empresa):
     """
     dados_por_categoria = {}
 
-    for cat_nome, cat_data in categories.items():
+    # Corrigido: usar 'categorias.items()' em vez de 'categories.items()'
+    for cat_nome, cat_data in categorias.items():
         print(f"\n📂 Iniciando avaliação da categoria: {cat_nome}\n")
         print("=" * 50)
 
@@ -74,18 +81,23 @@ def avaliar_todas(categorias, empresa):
                     escolha = input("\n👉 Escolha um status (ou 'b' para pular esta categoria): ").strip().lower()
 
                     if escolha == "b":
-                        print("\n↩️ Pulando essa categoria...\n")
-                        break  # Sai do laço dos controles, mas continua fluxo
+                        print("\n↩️ Pulando essa subcategoria...\n")
+                        break
 
-                    if escolha.isdigit() and 1 <= int(escolha) <= len(STATUS_OPTIONS):
+                    if not escolha.isdigit():
+                        print("\n❌ Entrada inválida! Digite um número.\n")
+                        continue
+
+                    idx = int(escolha)
+                    if 1 <= idx <= len(STATUS_OPTIONS):
                         respostas.append({
                             "controle": controle["controle"],
                             "descricao": controle["descricao"],
-                            "status": STATUS_OPTIONS[int(escolha) - 1]
+                            "status": STATUS_OPTIONS[idx - 1]
                         })
                         break
                     else:
-                        print("\n❌ Entrada inválida! Escolha um número válido.\n")
+                        print(f"\n❌ Escolha um número entre 1 e {len(STATUS_OPTIONS)}.\n")
 
         # Salvamos JSON para essa categoria
         salvar_json_unico(empresa, cat_nome, respostas)
@@ -104,7 +116,6 @@ def salvar_avaliacao_e_relatorio(empresa, categoria, respostas):
     assessments_dir = dirs["assessments"]
     reports_dir = dirs["reports"]
 
-    # Salvar JSON
     json_filename = f"avaliacao_{categoria}_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
     json_path = os.path.join(assessments_dir, json_filename)
 
@@ -113,16 +124,11 @@ def salvar_avaliacao_e_relatorio(empresa, categoria, respostas):
 
     print(f"\n✅ Avaliação salva em: {json_path}")
 
-    # Relatório single
     html_path = gerar_relatorio_html_single(categoria, respostas, destino=reports_dir)
     print(f"✅ Relatório HTML gerado em: {html_path}\n")
 
 
 def salvar_json_unico(empresa, categoria, respostas):
-    """
-    Salva apenas o JSON de uma categoria, sem gerar relatório single.
-    Usado em 'avaliar_todas'.
-    """
     dirs = criar_pastas_empresa(empresa)
     assessments_dir = dirs["assessments"]
 
@@ -136,15 +142,6 @@ def salvar_json_unico(empresa, categoria, respostas):
 
 
 def criar_pastas_empresa(empresa):
-    """
-    Cria pasta para a empresa, com subpastas 'assessments' e 'reports' se não existirem,
-    e retorna um dicionário com os caminhos.
-    Ex: {
-      "base": "src/clientes/EmpresaXYZ",
-      "assessments": "src/clientes/EmpresaXYZ/assessments",
-      "reports": "src/clientes/EmpresaXYZ/reports"
-    }
-    """
     base_empresa = os.path.join("src", "clientes", empresa)
     assessments_dir = os.path.join(base_empresa, "assessments")
     reports_dir = os.path.join(base_empresa, "reports")
